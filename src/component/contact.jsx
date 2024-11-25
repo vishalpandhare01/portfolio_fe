@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TextField, Button, Container, Typography, Grid } from "@mui/material";
 import axios from "axios";
 
-const ContactForm = ({id}) => {
+const ContactForm = ({ id }) => {
   const [formData, setFormData] = useState({
     Name: "",
     Phone: "",
@@ -17,17 +17,20 @@ const ContactForm = ({id}) => {
   const getLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        setFormData({ ...formData, Location: `Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}` });
+        setFormData({
+          ...formData,
+          Location: `Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`,
+        });
       });
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
   };
-  
+
   useEffect(() => {
     getLocation();
   }, []);
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -53,7 +56,7 @@ const ContactForm = ({id}) => {
         Message: "",
         IpAdress: "192.168.1.1", // Example IP address, can be dynamic
         Location: "",
-      })
+      });
     } catch (error) {
       setLoading(false);
       setResponseMessage("Failed to add contact.");
@@ -71,7 +74,7 @@ const ContactForm = ({id}) => {
           <Grid item xs={12}>
             <TextField
               label="Name"
-              variant="outlined"
+              variant="standard"
               fullWidth
               name="Name"
               value={formData.Name}
@@ -82,7 +85,7 @@ const ContactForm = ({id}) => {
           <Grid item xs={12}>
             <TextField
               label="Phone"
-              variant="outlined"
+              variant="standard"
               fullWidth
               name="Phone"
               value={formData.Phone}
@@ -93,7 +96,7 @@ const ContactForm = ({id}) => {
           <Grid item xs={12}>
             <TextField
               label="Email"
-              variant="outlined"
+              variant="standard"
               fullWidth
               name="Email"
               value={formData.Email}
@@ -104,7 +107,7 @@ const ContactForm = ({id}) => {
           <Grid item xs={12}>
             <TextField
               label="Message"
-              variant="outlined"
+              variant="standard"
               fullWidth
               name="Message"
               value={formData.Message}
@@ -128,7 +131,11 @@ const ContactForm = ({id}) => {
       </form>
 
       {responseMessage && (
-        <Typography variant="body1" color={responseMessage.includes("successfully") ? "green" : "red"} style={{ marginTop: "16px" }}>
+        <Typography
+          variant="body1"
+          color={responseMessage.includes("successfully") ? "green" : "red"}
+          style={{ marginTop: "16px" }}
+        >
           {responseMessage}
         </Typography>
       )}
@@ -137,4 +144,3 @@ const ContactForm = ({id}) => {
 };
 
 export default ContactForm;
-

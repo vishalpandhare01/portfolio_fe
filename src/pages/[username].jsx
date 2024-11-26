@@ -2,7 +2,8 @@ import PortfolioSkeleton from "@/component/porfoliosckleton";
 import Portfolio from "@/component/portfolio";
 import axios from "axios";
 import { useState, useEffect } from "react";
-
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import theme from "@/styles/them";
 // You can replace this with a simple CSS spinner or any animation you'd like
 const LoadingSpinner = () => (
   <div className="spinner">
@@ -14,13 +15,12 @@ export default function Home({ profile }) {
   // State to track if the API call is in progress or failed
   const [isApiReady, setIsApiReady] = useState(true);
 
+
   function handleStartApis() {
     try {
-      axios
-        .get("https://portfolio-be-2-i5k7.onrender.com")
-        .then((res) => {
-          setIsApiReady(true); // Set to true when API is ready
-        })
+      axios.get("https://portfolio-be-2-i5k7.onrender.com").then((res) => {
+        res.data.message == "server running now!!!" ?  setIsApiReady(true) :""
+     });
     } catch (error) {}
   }
 
@@ -32,8 +32,8 @@ export default function Home({ profile }) {
 
   // Show loading spinner if the API is not ready
   if (!isApiReady) {
-    handleStartApis()
-    return <PortfolioSkeleton/>
+    handleStartApis();
+    return <PortfolioSkeleton />;
   }
 
   if (!profile) {
@@ -44,7 +44,11 @@ export default function Home({ profile }) {
     );
   }
 
-  return  <Portfolio profile={profile.data} />;
+  return (
+    <ThemeProvider theme={theme}>
+      <Portfolio profile={profile.data} />
+    </ThemeProvider>
+  );
 }
 
 export const getServerSideProps = async (context) => {

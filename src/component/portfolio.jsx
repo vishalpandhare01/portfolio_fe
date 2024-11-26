@@ -94,7 +94,7 @@ const Portfolio = ({ profile }) => {
             variant="h3"
             sx={{ fontWeight: "bold", letterSpacing: 1 }}
           >
-            {Name}'s World
+            
           </Typography>
           <Typography variant="h5" sx={{ fontWeight: "lighter", marginTop: 1 }}>
             A glimpse into my projects, skills, and services.

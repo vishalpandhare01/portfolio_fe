@@ -1,14 +1,50 @@
+import PortfolioSkeleton from "@/component/porfoliosckleton";
 import Portfolio from "@/component/portfolio";
 import axios from "axios";
+import { useState, useEffect } from "react";
+
+// You can replace this with a simple CSS spinner or any animation you'd like
+const LoadingSpinner = () => (
+  <div className="spinner">
+    <div className="spin"></div>
+  </div>
+);
 
 export default function Home({ profile }) {
-  // Render the Portfolio component with the fetched profile data as a prop
-  if (!profile) {
-    return <div className="mt-10 text-center">
-      <h3 className="text-xl">404 This page could not be found.</h3>
-    </div>;
+  // State to track if the API call is in progress or failed
+  const [isApiReady, setIsApiReady] = useState(true);
+
+  function handleStartApis() {
+    try {
+      axios
+        .get("https://portfolio-be-2-i5k7.onrender.com")
+        .then((res) => {
+          setIsApiReady(true); // Set to true when API is ready
+        })
+    } catch (error) {}
   }
-  return <Portfolio profile={profile.data} />;
+
+  useEffect(() => {
+    handleStartApis(); // Trigger the API call when the component mounts
+  }, []);
+
+  // If profile is not available, return a 404 message
+
+  // Show loading spinner if the API is not ready
+  if (!isApiReady) {
+    handleStartApis()
+    return <PortfolioSkeleton/>
+  }
+
+  if (!profile) {
+    return (
+      <div className="mt-10 text-center">
+        <h3 className="text-xl">404 This page could not be found.</h3>
+      </div>
+    );
+  }
+
+  return  <Portfolio profile={profile.data} />;
 }
 
 export const getServerSideProps = async (context) => {

@@ -377,7 +377,7 @@ const Portfolio = ({ profile }) => {
           &copy; {new Date().getFullYear()} {Name}. All Rights Reserved.
         </Typography>
         <Typography variant="caption">
-          Created with ❤️ using Next.js and Material UI
+        
         </Typography>
       </Box>
     </Box>

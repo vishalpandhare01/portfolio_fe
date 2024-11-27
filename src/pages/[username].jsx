@@ -65,6 +65,6 @@ export const getServerSideProps = async (context) => {
     console.error("Error fetching profile data:", error);
 
     // Return null profile data if there is an error
-    return { props: { profile: null } };
+    // return { props: { profile: null } };
   }
 };
